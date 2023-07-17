@@ -11,25 +11,8 @@ def letter_histogram(string):
 
     return letter_histogram
 
-def invert_dict(dic):
-    inverted_dict = {}
-    for key in dic:
-        value = dic[key]
-        if value not in inverted_dict:
-            inverted_dict[value] = [key]
-        else:
-            inverted_dict[value].append(key)
-    
-    return inverted_dict
-
-def sort_dict(dic):
-    sorted_dict = {}
-    keys = list(dic.keys())
-    keys.sort(reverse=True)
-    for key in keys:
-        sorted_dict[key] = dic[key]
-    
-    return sorted_dict
+def sort_key(tupl):
+    return tupl[1]
 
 
 def main():
@@ -39,12 +22,10 @@ def main():
         num_words = len(file_content.split())
         print(f"{num_words} words found in the document.")
         letter_hist = letter_histogram(file_content)
-        sorted_letter_hist = sort_dict(invert_dict(letter_hist))
-
-        for count in sorted_letter_hist:
-            letters = sorted_letter_hist[count]
-            for letter in letters:
-                print(f"The '{letter}' character was found {count} times")
+        items = list(letter_hist.items())
+        items.sort(reverse=True, key=sort_key)
+        for item in items:
+            print(f"The '{item[0]}' character was found {item[1]} times")
         
         print("--- End report ---")
 
